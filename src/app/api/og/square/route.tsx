@@ -62,8 +62,7 @@ export async function GET(req: NextRequest) {
         <div
           style={{
             display: "flex",
-            background: "#ffffff",
-            border: "1px solid #e2e8f0",
+            background: settings.brand_color,
             borderRadius: 12,
             padding: 8,
           }}
@@ -75,9 +74,6 @@ export async function GET(req: NextRequest) {
             gridH={gridH}
             cell={CELL}
             nameMaxFontSize={14}
-            emptyFillOpacity={0.04}
-            emptyBorderOpacity={0.08}
-            light
           />
         </div>
 

@@ -104,12 +104,12 @@ export async function GET(req: NextRequest) {
         </div>
 
         {/* Grid */}
-        <div style={{ position: "relative", width: gridW, height: gridH, display: "flex", background: "#ffffff", border: "1px solid #e2e8f0", borderRadius: 12 }}>
+        <div style={{ position: "relative", width: gridW, height: gridH, display: "flex", background: settings.brand_color, borderRadius: 12 }}>
           {emptyCells.map((cell, i) => (
             <div key={i} style={{
               position: "absolute", left: cell.x, top: cell.y,
               width: CELL - 3, height: CELL - 3,
-              background: "rgba(15,23,42,0.03)", border: "1px solid rgba(15,23,42,0.06)",
+              background: "rgba(255,255,255,0.07)", border: "1px solid rgba(255,255,255,0.12)",
               borderRadius: 4, display: "flex",
             }} />
           ))}
