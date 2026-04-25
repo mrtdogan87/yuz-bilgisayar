@@ -77,7 +77,7 @@ const SOURCE_LABELS: { key: string; label: string; icon: string }[] = [
   { key: "other", label: "Diğer", icon: "•" },
 ];
 
-const SEVEN_DAYS_MS = 7 * 24 * 60 * 60 * 1000;
+const NEW_BADGE_MS = 3 * 24 * 60 * 60 * 1000;
 
 export default function WallClient({
   settings,
@@ -482,7 +482,7 @@ function FeaturedSupporter({
   brand: string;
   brandDark: string;
 }) {
-  const isNew = isWithinLastWeek(donor.createdAt);
+  const isNew = isRecentlyAdded(donor.createdAt);
   return (
     <div
       className="relative overflow-hidden rounded-2xl border border-slate-200 p-5 md:p-6 flex flex-col md:flex-row md:items-center gap-5"
@@ -539,7 +539,7 @@ function FeaturedSupporter({
 }
 
 function SupporterCard({ donor, brand }: { donor: DonorEntry; brand: string }) {
-  const isNew = isWithinLastWeek(donor.createdAt);
+  const isNew = isRecentlyAdded(donor.createdAt);
   const inner = (
     <div className="flex items-center gap-3 p-3 rounded-xl border border-slate-200 bg-white hover:border-slate-300 hover:shadow-sm transition-all">
       <div
@@ -585,9 +585,9 @@ function formatNumber(n: number): string {
   return new Intl.NumberFormat("tr-TR").format(n);
 }
 
-function isWithinLastWeek(iso: string): boolean {
+function isRecentlyAdded(iso: string): boolean {
   if (!iso) return false;
   const parsed = Date.parse(iso.includes("T") ? iso : iso.replace(" ", "T") + "Z");
   if (Number.isNaN(parsed)) return false;
-  return Date.now() - parsed <= SEVEN_DAYS_MS;
+  return Date.now() - parsed <= NEW_BADGE_MS;
 }
