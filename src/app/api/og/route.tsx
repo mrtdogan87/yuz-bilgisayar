@@ -63,7 +63,7 @@ export async function GET(req: NextRequest) {
       <div
         style={{
           width: 1200, height: 630,
-          background: settings.brand_color,
+          background: "#f8fafc",
           display: "flex",
           flexDirection: "column",
           alignItems: "center",
@@ -74,21 +74,21 @@ export async function GET(req: NextRequest) {
         }}
       >
         <div style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: "8px" }}>
-          <div style={{ color: "white", fontSize: 36, fontWeight: 800, letterSpacing: "-1px", display: "flex" }}>
+          <div style={{ color: settings.border_color, fontSize: 36, fontWeight: 800, letterSpacing: "-1px", display: "flex" }}>
             {settings.campaign_title}
           </div>
-          <div style={{ color: "rgba(255,255,255,0.7)", fontSize: 18, display: "flex" }}>
+          <div style={{ color: "#475569", fontSize: 18, display: "flex" }}>
             {settings.campaign_subtitle}
           </div>
         </div>
 
-        <div style={{ position: "relative", width: gridW, height: gridH, display: "flex" }}>
+        <div style={{ position: "relative", width: gridW, height: gridH, display: "flex", background: "#ffffff", border: "1px solid #e2e8f0", borderRadius: 8 }}>
           {emptyCells.map((cell, i) => (
             <div key={i} style={{
               position: "absolute", left: cell.x, top: cell.y,
               width: CELL - 2, height: CELL - 2,
-              background: "rgba(255,255,255,0.08)",
-              border: "1px solid rgba(255,255,255,0.15)",
+              background: "rgba(15,23,42,0.03)",
+              border: "1px solid rgba(15,23,42,0.06)",
               borderRadius: 3, display: "flex",
             }} />
           ))}
@@ -114,22 +114,22 @@ export async function GET(req: NextRequest) {
 
         <div style={{
           display: "flex", flexDirection: "row", gap: "32px",
-          background: "rgba(255,255,255,0.1)", borderRadius: 12, padding: "12px 32px",
+          background: settings.brand_color, borderRadius: 12, padding: "12px 32px",
           alignItems: "center",
         }}>
           <div style={{ display: "flex", flexDirection: "column", alignItems: "center" }}>
             <div style={{ color: "white", fontSize: 28, fontWeight: 800, display: "flex" }}>{totalComputers}</div>
-            <div style={{ color: "rgba(255,255,255,0.6)", fontSize: 12, display: "flex" }}>Bilgisayar</div>
+            <div style={{ color: "rgba(255,255,255,0.75)", fontSize: 12, display: "flex" }}>Bilgisayar</div>
           </div>
-          <div style={{ width: 1, height: 40, background: "rgba(255,255,255,0.2)", display: "flex" }} />
+          <div style={{ width: 1, height: 40, background: "rgba(255,255,255,0.3)", display: "flex" }} />
           <div style={{ display: "flex", flexDirection: "column", alignItems: "center" }}>
             <div style={{ color: "white", fontSize: 28, fontWeight: 800, display: "flex" }}>{result.placed.length}</div>
-            <div style={{ color: "rgba(255,255,255,0.6)", fontSize: 12, display: "flex" }}>Destekçi</div>
+            <div style={{ color: "rgba(255,255,255,0.75)", fontSize: 12, display: "flex" }}>Destekçi</div>
           </div>
-          <div style={{ width: 1, height: 40, background: "rgba(255,255,255,0.2)", display: "flex" }} />
+          <div style={{ width: 1, height: 40, background: "rgba(255,255,255,0.3)", display: "flex" }} />
           <div style={{ display: "flex", flexDirection: "column", alignItems: "center" }}>
             <div style={{ color: "white", fontSize: 28, fontWeight: 800, display: "flex" }}>%{pct}</div>
-            <div style={{ color: "rgba(255,255,255,0.6)", fontSize: 12, display: "flex" }}>Doluluk</div>
+            <div style={{ color: "rgba(255,255,255,0.75)", fontSize: 12, display: "flex" }}>Doluluk</div>
           </div>
         </div>
       </div>

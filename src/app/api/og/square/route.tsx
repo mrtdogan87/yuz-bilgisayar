@@ -25,7 +25,7 @@ export async function GET(req: NextRequest) {
         style={{
           width: 1080,
           height: 1080,
-          background: settings.brand_color,
+          background: "#f8fafc",
           display: "flex",
           flexDirection: "column",
           alignItems: "center",
@@ -37,7 +37,7 @@ export async function GET(req: NextRequest) {
         <div style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: "10px" }}>
           <div
             style={{
-              color: "white",
+              color: settings.border_color,
               fontSize: 56,
               fontWeight: 900,
               letterSpacing: "-1.5px",
@@ -49,7 +49,7 @@ export async function GET(req: NextRequest) {
           </div>
           <div
             style={{
-              color: "rgba(255,255,255,0.7)",
+              color: "#475569",
               fontSize: 24,
               textAlign: "center",
               display: "flex",
@@ -59,21 +59,34 @@ export async function GET(req: NextRequest) {
           </div>
         </div>
 
-        <GridSvg
-          cells={cells}
-          emptyCells={emptyCells}
-          gridW={gridW}
-          gridH={gridH}
-          cell={CELL}
-          nameMaxFontSize={14}
-        />
+        <div
+          style={{
+            display: "flex",
+            background: "#ffffff",
+            border: "1px solid #e2e8f0",
+            borderRadius: 12,
+            padding: 8,
+          }}
+        >
+          <GridSvg
+            cells={cells}
+            emptyCells={emptyCells}
+            gridW={gridW}
+            gridH={gridH}
+            cell={CELL}
+            nameMaxFontSize={14}
+            emptyFillOpacity={0.04}
+            emptyBorderOpacity={0.08}
+            light
+          />
+        </div>
 
         <div
           style={{
             display: "flex",
             flexDirection: "row",
             gap: "40px",
-            background: "rgba(255,255,255,0.12)",
+            background: settings.brand_color,
             borderRadius: 16,
             padding: "18px 40px",
             alignItems: "center",
@@ -95,11 +108,11 @@ function Stat({ value, label }: { value: string; label: string }) {
   return (
     <div style={{ display: "flex", flexDirection: "column", alignItems: "center" }}>
       <div style={{ color: "white", fontSize: 40, fontWeight: 900, display: "flex" }}>{value}</div>
-      <div style={{ color: "rgba(255,255,255,0.65)", fontSize: 16, display: "flex" }}>{label}</div>
+      <div style={{ color: "rgba(255,255,255,0.8)", fontSize: 16, display: "flex" }}>{label}</div>
     </div>
   );
 }
 
 function Divider() {
-  return <div style={{ width: 1, height: 48, background: "rgba(255,255,255,0.22)", display: "flex" }} />;
+  return <div style={{ width: 1, height: 48, background: "rgba(255,255,255,0.3)", display: "flex" }} />;
 }

@@ -3,6 +3,7 @@
 import { useRef, useEffect, useMemo, useState } from "react";
 import DonationWall from "@/components/wall/DonationWall";
 import ShareModule from "@/components/share/ShareModule";
+import CallbackForm from "@/components/CallbackForm";
 
 type PlacedDonor = {
   id: string;
@@ -93,6 +94,8 @@ export default function WallClient({
   const [seed, setSeed] = useState<string | null>(null);
   const [reach, setReach] = useState<ReachSummary>(initialReach);
   const [animatedReach, setAnimatedReach] = useState(0);
+  const [shareOpen, setShareOpen] = useState(false);
+  const [posterOpen, setPosterOpen] = useState(false);
 
   const brand = settings.brandColor;
   const brandDark = settings.borderColor;
@@ -308,11 +311,19 @@ export default function WallClient({
       {settings.posterFileUrl && (
         <div className="max-w-6xl mx-auto px-4 mb-10">
           <div className="bg-white rounded-2xl shadow-sm border border-slate-200 overflow-hidden">
-            <div className="p-4 border-b border-slate-200 flex items-center gap-2">
+            <button
+              type="button"
+              onClick={() => setPosterOpen((v) => !v)}
+              aria-expanded={posterOpen}
+              className="w-full p-4 border-b border-slate-200 flex items-center gap-2 hover:bg-slate-50 transition-colors text-left"
+            >
               <span className="inline-block w-1 h-5 rounded" style={{ background: brand }} />
               <p className="font-semibold text-slate-700">Kampanya Afişi</p>
-            </div>
-            {isPdf ? (
+              <span className="ml-auto text-slate-400" aria-hidden>
+                {posterOpen ? "▲" : "▼"}
+              </span>
+            </button>
+            {posterOpen && (isPdf ? (
               <div className="p-6 flex flex-col md:flex-row items-stretch md:items-center gap-4">
                 <div className="flex-1 min-w-0 rounded-xl border border-slate-200 bg-slate-50 overflow-hidden">
                   <object
@@ -352,27 +363,44 @@ export default function WallClient({
                   İndir
                 </a>
               </div>
-            )}
+            ))}
           </div>
         </div>
       )}
 
       {/* Share module */}
       <div className="max-w-6xl mx-auto px-4 mb-10">
-        <div className="bg-white rounded-2xl shadow-sm border border-slate-200 p-6">
-          <div className="flex items-center gap-2 mb-4">
+        <div className="bg-white rounded-2xl shadow-sm border border-slate-200 overflow-hidden">
+          <button
+            type="button"
+            onClick={() => setShareOpen((v) => !v)}
+            aria-expanded={shareOpen}
+            className="w-full flex items-center gap-2 p-4 hover:bg-slate-50 transition-colors text-left"
+          >
             <span className="inline-block w-1 h-5 rounded" style={{ background: brand }} />
             <h2 className="font-bold text-slate-700">Paylaş</h2>
-          </div>
-          <ShareModule
-            shareText={settings.shareText}
-            instagramText={settings.instagramText}
-            pageUrl={pageUrl}
-            brand={brand}
-            seed={seed}
-          />
+            <span className="text-xs text-slate-500 hidden sm:block">
+              Kare / Story / LinkedIn formatlarında görsel üret
+            </span>
+            <span className="ml-auto text-slate-400" aria-hidden>
+              {shareOpen ? "▲" : "▼"}
+            </span>
+          </button>
+          {shareOpen && (
+            <div className="p-6 border-t border-slate-100">
+              <ShareModule
+                shareText={settings.shareText}
+                instagramText={settings.instagramText}
+                pageUrl={pageUrl}
+                brand={brand}
+                seed={seed}
+              />
+            </div>
+          )}
         </div>
       </div>
+
+      <CallbackForm brand={brand} brandDark={brandDark} />
 
       {/* Reach text */}
       {settings.reachText && (

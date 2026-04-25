@@ -64,7 +64,7 @@ export async function GET(req: NextRequest) {
     (
       <div style={{
         width: 1080, height: 1920,
-        background: settings.brand_color,
+        background: "#f8fafc",
         display: "flex", flexDirection: "column",
         alignItems: "center", justifyContent: "space-around",
         padding: "80px 40px", fontFamily: "sans-serif",
@@ -72,16 +72,16 @@ export async function GET(req: NextRequest) {
         {/* Header */}
         <div style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: "16px" }}>
           <div style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: "8px" }}>
-            <div style={{ color: "white", fontSize: 52, fontWeight: 900, textAlign: "center", letterSpacing: "-2px", display: "flex" }}>
+            <div style={{ color: settings.border_color, fontSize: 52, fontWeight: 900, textAlign: "center", letterSpacing: "-2px", display: "flex" }}>
               {titleParts[0]?.trim() ?? settings.campaign_title}
             </div>
             {titleParts[1] && (
-              <div style={{ color: "#38BDF8", fontSize: 52, fontWeight: 900, textAlign: "center", display: "flex" }}>
+              <div style={{ color: settings.brand_color, fontSize: 52, fontWeight: 900, textAlign: "center", display: "flex" }}>
                 = {titleParts[1].trim()}
               </div>
             )}
           </div>
-          <div style={{ color: "rgba(255,255,255,0.65)", fontSize: 26, textAlign: "center", display: "flex" }}>
+          <div style={{ color: "#475569", fontSize: 26, textAlign: "center", display: "flex" }}>
             {settings.campaign_subtitle}
           </div>
         </div>
@@ -95,21 +95,21 @@ export async function GET(req: NextRequest) {
           ].map((s, i) => (
             <div key={i} style={{
               display: "flex", flexDirection: "column", alignItems: "center",
-              background: "rgba(255,255,255,0.1)", borderRadius: 20, padding: "24px 36px",
+              background: settings.brand_color, borderRadius: 20, padding: "24px 36px",
             }}>
               <div style={{ color: "white", fontSize: 52, fontWeight: 900, display: "flex" }}>{s.value}</div>
-              <div style={{ color: "rgba(255,255,255,0.6)", fontSize: 20, display: "flex" }}>{s.label}</div>
+              <div style={{ color: "rgba(255,255,255,0.8)", fontSize: 20, display: "flex" }}>{s.label}</div>
             </div>
           ))}
         </div>
 
         {/* Grid */}
-        <div style={{ position: "relative", width: gridW, height: gridH, display: "flex" }}>
+        <div style={{ position: "relative", width: gridW, height: gridH, display: "flex", background: "#ffffff", border: "1px solid #e2e8f0", borderRadius: 12 }}>
           {emptyCells.map((cell, i) => (
             <div key={i} style={{
               position: "absolute", left: cell.x, top: cell.y,
               width: CELL - 3, height: CELL - 3,
-              background: "rgba(255,255,255,0.07)", border: "1px solid rgba(255,255,255,0.12)",
+              background: "rgba(15,23,42,0.03)", border: "1px solid rgba(15,23,42,0.06)",
               borderRadius: 4, display: "flex",
             }} />
           ))}
@@ -135,7 +135,7 @@ export async function GET(req: NextRequest) {
         </div>
 
         {/* Footer */}
-        <div style={{ color: "rgba(255,255,255,0.5)", fontSize: 24, textAlign: "center", display: "flex" }}>
+        <div style={{ color: "#64748b", fontSize: 24, textAlign: "center", display: "flex" }}>
           Sen de bu duvarda yer al
         </div>
       </div>

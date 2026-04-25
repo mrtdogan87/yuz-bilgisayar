@@ -37,7 +37,7 @@ const PALETTE = [
 ];
 
 export default function DonationWall({ placed, settings, wallRef }: Props) {
-  const { gridCols, gridRows, brandColor, gridColor } = settings;
+  const { gridCols, gridRows, gridColor } = settings;
   const [hovered, setHovered] = useState<string | null>(null);
   const [cellSize, setCellSize] = useState(56);
   const containerRef = useRef<HTMLDivElement>(null);
@@ -77,7 +77,8 @@ export default function DonationWall({ placed, settings, wallRef }: Props) {
           position: "relative",
           width: gridW,
           height: gridH,
-          background: brandColor,
+          background: "#f8fafc",
+          border: "1px solid #e2e8f0",
           borderRadius: 8,
           overflow: "hidden",
         }}
@@ -93,7 +94,7 @@ export default function DonationWall({ placed, settings, wallRef }: Props) {
                 top: r * cellSize,
                 width: cellSize - 1,
                 height: cellSize - 1,
-                border: `1px solid ${gridColor}22`,
+                border: `1px solid ${gridColor}33`,
                 boxSizing: "border-box",
               }}
             />

@@ -72,6 +72,7 @@ export function GridSvg({
   cellGap = 3,
   nameMinHeightMultiplier = 1.5,
   nameMaxFontSize = 12,
+  light = false,
 }: {
   cells: ReturnType<typeof buildGridCells>["cells"];
   emptyCells: { x: number; y: number }[];
@@ -84,7 +85,9 @@ export function GridSvg({
   cellGap?: number;
   nameMinHeightMultiplier?: number;
   nameMaxFontSize?: number;
+  light?: boolean;
 }) {
+  const emptyRgb = light ? "15,23,42" : "255,255,255";
   return (
     <div style={{ position: "relative", width: gridW, height: gridH, display: "flex" }}>
       {emptyCells.map((c, i) => (
@@ -96,8 +99,8 @@ export function GridSvg({
             top: c.y,
             width: cell - cellGap + 1,
             height: cell - cellGap + 1,
-            background: `rgba(255,255,255,${emptyFillOpacity})`,
-            border: `1px solid rgba(255,255,255,${emptyBorderOpacity})`,
+            background: `rgba(${emptyRgb},${emptyFillOpacity})`,
+            border: `1px solid rgba(${emptyRgb},${emptyBorderOpacity})`,
             borderRadius: 3,
             display: "flex",
           }}

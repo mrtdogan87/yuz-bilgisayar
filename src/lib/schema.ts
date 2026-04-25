@@ -97,6 +97,17 @@ export function getDb(): Database.Database {
       user_agent TEXT
     );
     CREATE INDEX IF NOT EXISTS idx_admin_sessions_expires ON admin_sessions(expires_at);
+
+    CREATE TABLE IF NOT EXISTS callback_requests (
+      id TEXT PRIMARY KEY,
+      name TEXT NOT NULL,
+      phone TEXT NOT NULL,
+      note TEXT,
+      created_at INTEGER NOT NULL,
+      called_at INTEGER,
+      call_note TEXT
+    );
+    CREATE INDEX IF NOT EXISTS idx_callback_requests_created ON callback_requests(created_at);
   `);
 
   const donorCols = (db.prepare("PRAGMA table_info(donors)").all() as { name: string }[]).map((r) => r.name);
@@ -197,3 +208,13 @@ export type AdminSession = {
 
 export const REACH_PLATFORMS = ["instagram", "linkedin", "x", "whatsapp", "other"] as const;
 export type ReachPlatform = (typeof REACH_PLATFORMS)[number];
+
+export type CallbackRequest = {
+  id: string;
+  name: string;
+  phone: string;
+  note: string | null;
+  created_at: number;
+  called_at: number | null;
+  call_note: string | null;
+};

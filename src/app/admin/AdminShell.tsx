@@ -8,6 +8,7 @@ const NAV = [
   { href: "/admin", label: "📊 Özet", exact: true },
   { href: "/admin/donors", label: "👥 Bağışçılar" },
   { href: "/admin/reach", label: "📈 Gösterimler" },
+  { href: "/admin/callbacks", label: "📞 Geri Aramalar" },
   { href: "/admin/settings", label: "⚙️ Ayarlar" },
   { href: "/admin/layout", label: "🗂️ Yerleşim" },
 ];
