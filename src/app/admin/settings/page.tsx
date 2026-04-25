@@ -19,6 +19,9 @@ type Settings = {
   poster_file_url: string | null;
   poster_file_name: string | null;
   poster_mime_type: string | null;
+  header_left_text: string;
+  header_right_text: string;
+  footer_text: string;
 };
 
 export default function SettingsPage() {
@@ -57,6 +60,9 @@ export default function SettingsPage() {
         shareText: form.share_text,
         instagramText: form.instagram_text,
         posterTitle: form.poster_title,
+        headerLeftText: form.header_left_text,
+        headerRightText: form.header_right_text,
+        footerText: form.footer_text,
       }),
     });
     const data = await res.json();
@@ -116,6 +122,28 @@ export default function SettingsPage() {
           </Field>
           <Field label="İletişim / Erişim Metni">
             <textarea {...f("reach_text")} rows={2} className="input resize-none" />
+          </Field>
+        </div>
+
+        {/* Header & footer */}
+        <div className="bg-white rounded-2xl p-6 shadow-sm space-y-4">
+          <div>
+            <h2 className="font-semibold text-gray-700">Üst Şerit & Alt Bilgi</h2>
+            <p className="text-xs text-gray-500 mt-1">
+              Sayfanın en üstündeki ince renkli şerit ve en alttaki footer metni. Boş bırakılırsa ilgili alan
+              gösterilmez.
+            </p>
+          </div>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <Field label="Üst Şerit – Sol Metin">
+              <input {...f("header_left_text")} className="input" placeholder="Örn. Manisa Celal Bayar Üniversitesi İİBF" />
+            </Field>
+            <Field label="Üst Şerit – Sağ Metin">
+              <input {...f("header_right_text")} className="input" placeholder="Örn. Bağış Duvarı" />
+            </Field>
+          </div>
+          <Field label="Alt Bilgi (Footer)">
+            <textarea {...f("footer_text")} rows={2} className="input resize-none" placeholder="Sayfa altında gösterilecek kurum/iletişim metni" />
           </Field>
         </div>
 

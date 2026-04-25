@@ -35,6 +35,9 @@ export function getDb(): Database.Database {
       poster_mime_type TEXT,
       poster_updated_at TEXT,
       admin_password_hash TEXT NOT NULL DEFAULT '',
+      header_left_text TEXT NOT NULL DEFAULT 'Manisa Celal Bayar Üniversitesi İİBF',
+      header_right_text TEXT NOT NULL DEFAULT 'Bağış Duvarı',
+      footer_text TEXT NOT NULL DEFAULT 'Manisa Celal Bayar Üniversitesi İktisadi ve İdari Bilimler Fakültesi',
       updated_at TEXT NOT NULL DEFAULT (datetime('now'))
     );
 
@@ -100,6 +103,14 @@ export function getDb(): Database.Database {
   if (!donorCols.includes("logo_aspect")) db.exec("ALTER TABLE donors ADD COLUMN logo_aspect REAL");
   if (!donorCols.includes("bg_color")) db.exec("ALTER TABLE donors ADD COLUMN bg_color TEXT");
 
+  const settingsCols = (db.prepare("PRAGMA table_info(settings)").all() as { name: string }[]).map((r) => r.name);
+  if (!settingsCols.includes("header_left_text"))
+    db.exec("ALTER TABLE settings ADD COLUMN header_left_text TEXT NOT NULL DEFAULT 'Manisa Celal Bayar Üniversitesi İİBF'");
+  if (!settingsCols.includes("header_right_text"))
+    db.exec("ALTER TABLE settings ADD COLUMN header_right_text TEXT NOT NULL DEFAULT 'Bağış Duvarı'");
+  if (!settingsCols.includes("footer_text"))
+    db.exec("ALTER TABLE settings ADD COLUMN footer_text TEXT NOT NULL DEFAULT 'Manisa Celal Bayar Üniversitesi İktisadi ve İdari Bilimler Fakültesi'");
+
   _db = db;
   return db;
 }
@@ -133,6 +144,9 @@ export type Settings = {
   poster_file_name: string | null;
   poster_mime_type: string | null;
   poster_updated_at: string | null;
+  header_left_text: string;
+  header_right_text: string;
+  footer_text: string;
   updated_at: string;
 };
 

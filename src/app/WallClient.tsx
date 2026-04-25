@@ -43,6 +43,9 @@ type WallSettings = {
   posterMimeType: string | null;
   reachTarget: number;
   computerGoal: number;
+  headerLeftText: string;
+  headerRightText: string;
+  footerText: string;
 };
 
 type ReachSummary = {
@@ -178,15 +181,21 @@ export default function WallClient({
   return (
     <div className="min-h-screen bg-slate-50 text-slate-800">
       {/* Top brand strip */}
-      <div style={{ background: brand }} className="text-white">
-        <div className="max-w-6xl mx-auto px-4 py-3 flex items-center justify-between">
-          <div className="flex items-center gap-3 text-sm font-medium">
-            <span className="inline-block w-2 h-2 rounded-full bg-white/80" />
-            <span>Manisa Celal Bayar Üniversitesi İİBF</span>
+      {(settings.headerLeftText || settings.headerRightText) && (
+        <div style={{ background: brand }} className="text-white">
+          <div className="max-w-6xl mx-auto px-4 py-3 flex items-center justify-between">
+            {settings.headerLeftText && (
+              <div className="flex items-center gap-3 text-sm font-medium">
+                <span className="inline-block w-2 h-2 rounded-full bg-white/80" />
+                <span>{settings.headerLeftText}</span>
+              </div>
+            )}
+            {settings.headerRightText && (
+              <div className="text-xs opacity-80 hidden sm:block">{settings.headerRightText}</div>
+            )}
           </div>
-          <div className="text-xs opacity-80 hidden sm:block">Bağış Duvarı</div>
         </div>
-      </div>
+      )}
 
       {/* Hero */}
       <div className="max-w-6xl mx-auto px-4 pt-10 pb-6 text-center">
@@ -263,6 +272,38 @@ export default function WallClient({
         <DonationWall placed={placed} settings={settings} wallRef={wallRef} />
       </div>
 
+      {/* Supporter showcase */}
+      {donorList.length > 0 && (
+        <div className="max-w-6xl mx-auto px-4 mb-10">
+          <div className="bg-white rounded-2xl shadow-sm border border-slate-200 p-6">
+            <div className="flex items-center gap-2 mb-5">
+              <span className="inline-block w-1 h-5 rounded" style={{ background: brand }} />
+              <h2 className="font-bold text-slate-700">Destekçiler</h2>
+              <span className="ml-auto text-xs text-slate-500">
+                {donorList.length} destekçi · {totalComputers} bilgisayar
+              </span>
+            </div>
+
+            {featured && (
+              <FeaturedSupporter donor={featured} brand={brand} brandDark={brandDark} />
+            )}
+
+            {others.length > 0 && (
+              <div className="mt-5 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
+                {others.map((d) => (
+                  <SupporterCard key={d.id} donor={d} brand={brand} />
+                ))}
+              </div>
+            )}
+
+            <div className="mt-6 pt-4 border-t-2 flex justify-between font-bold text-slate-800" style={{ borderColor: brand }}>
+              <span>Toplam</span>
+              <span>{totalComputers} bilgisayar</span>
+            </div>
+          </div>
+        </div>
+      )}
+
       {/* Poster */}
       {settings.posterFileUrl && (
         <div className="max-w-6xl mx-auto px-4 mb-10">
@@ -333,38 +374,6 @@ export default function WallClient({
         </div>
       </div>
 
-      {/* Supporter showcase */}
-      {donorList.length > 0 && (
-        <div className="max-w-6xl mx-auto px-4 mb-10">
-          <div className="bg-white rounded-2xl shadow-sm border border-slate-200 p-6">
-            <div className="flex items-center gap-2 mb-5">
-              <span className="inline-block w-1 h-5 rounded" style={{ background: brand }} />
-              <h2 className="font-bold text-slate-700">Destekçiler</h2>
-              <span className="ml-auto text-xs text-slate-500">
-                {donorList.length} destekçi · {totalComputers} bilgisayar
-              </span>
-            </div>
-
-            {featured && (
-              <FeaturedSupporter donor={featured} brand={brand} brandDark={brandDark} />
-            )}
-
-            {others.length > 0 && (
-              <div className="mt-5 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
-                {others.map((d) => (
-                  <SupporterCard key={d.id} donor={d} brand={brand} />
-                ))}
-              </div>
-            )}
-
-            <div className="mt-6 pt-4 border-t-2 flex justify-between font-bold text-slate-800" style={{ borderColor: brand }}>
-              <span>Toplam</span>
-              <span>{totalComputers} bilgisayar</span>
-            </div>
-          </div>
-        </div>
-      )}
-
       {/* Reach text */}
       {settings.reachText && (
         <div className="max-w-6xl mx-auto px-4 mb-12">
@@ -375,11 +384,13 @@ export default function WallClient({
       )}
 
       {/* Footer */}
-      <div style={{ background: brandDark }} className="text-white/80 text-xs">
-        <div className="max-w-6xl mx-auto px-4 py-4 text-center">
-          Manisa Celal Bayar Üniversitesi İktisadi ve İdari Bilimler Fakültesi
+      {settings.footerText && (
+        <div style={{ background: brandDark }} className="text-white/80 text-xs">
+          <div className="max-w-6xl mx-auto px-4 py-4 text-center">
+            {settings.footerText}
+          </div>
         </div>
-      </div>
+      )}
     </div>
   );
 }

@@ -21,6 +21,7 @@ export async function PUT(req: NextRequest) {
     campaignTitle, campaignSubtitle, gridCols, gridRows,
     reachTarget, brandColor, borderColor, gridColor, fontFamily,
     reachText, shareText, instagramText, posterTitle,
+    headerLeftText, headerRightText, footerText,
   } = body;
 
   // Warn if grid shrinks and layouts overflow
@@ -56,6 +57,9 @@ export async function PUT(req: NextRequest) {
       share_text = COALESCE(?, share_text),
       instagram_text = COALESCE(?, instagram_text),
       poster_title = COALESCE(?, poster_title),
+      header_left_text = COALESCE(?, header_left_text),
+      header_right_text = COALESCE(?, header_right_text),
+      footer_text = COALESCE(?, footer_text),
       updated_at = ?
     WHERE id = 1
   `).run(
@@ -72,6 +76,9 @@ export async function PUT(req: NextRequest) {
     shareText ?? null,
     instagramText ?? null,
     posterTitle ?? null,
+    headerLeftText ?? null,
+    headerRightText ?? null,
+    footerText ?? null,
     now()
   );
 

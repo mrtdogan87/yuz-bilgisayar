@@ -92,6 +92,9 @@ export default async function HomePage() {
         posterMimeType: settings.poster_mime_type,
         reachTarget: settings.reach_target,
         computerGoal: COMPUTER_GOAL,
+        headerLeftText: settings.header_left_text,
+        headerRightText: settings.header_right_text,
+        footerText: settings.footer_text,
       }}
       placed={placed}
       totalComputers={totalComputers}
