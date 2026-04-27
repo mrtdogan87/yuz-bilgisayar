@@ -69,7 +69,14 @@ export default async function HomePage() {
   }));
 
   const donorList = [...result.placed]
-    .sort((a, b) => b.donor.computer_count - a.donor.computer_count)
+    .sort((a, b) => {
+      const countDiff = b.donor.computer_count - a.donor.computer_count;
+      if (countDiff !== 0) return countDiff;
+      // Tie-breaker: earlier created_at wins ("first to reach this count" stays on top)
+      const aCreated = Date.parse(a.donor.created_at) || 0;
+      const bCreated = Date.parse(b.donor.created_at) || 0;
+      return aCreated - bCreated;
+    })
     .map((p) => ({
       id: p.donor.id,
       name: p.donor.name,
