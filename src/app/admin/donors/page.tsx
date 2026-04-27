@@ -107,17 +107,31 @@ export default function DonorsPage() {
 
   const uploadLogo = async (id: string, file: File) => {
     setUploadingLogo(id);
-    const aspect = await measureAspect(file);
-    const fd = new FormData();
-    fd.append("file", file);
-    if (aspect) fd.append("aspect", String(aspect));
-    const res = await fetch(`/api/admin/donors/${id}/logo`, { method: "POST", body: fd });
-    if (!res.ok) {
-      const d = await res.json();
-      alert(d.error || "Logo yüklenemedi");
+    try {
+      const aspect = await measureAspect(file);
+      const fd = new FormData();
+      fd.append("file", file);
+      if (aspect) fd.append("aspect", String(aspect));
+      const res = await fetch(`/api/admin/donors/${id}/logo`, { method: "POST", body: fd });
+      if (!res.ok) {
+        const text = await res.text();
+        let message = `Logo yüklenemedi (HTTP ${res.status})`;
+        try {
+          const parsed = JSON.parse(text);
+          if (parsed?.error) message = parsed.error;
+        } catch {
+          if (text) message = `${message}: ${text.slice(0, 200)}`;
+        }
+        console.error("Logo upload failed", res.status, text);
+        alert(message);
+      }
+    } catch (err) {
+      console.error("Logo upload network error", err);
+      alert(`Logo yüklenemedi: ${(err as Error).message}`);
+    } finally {
+      setUploadingLogo(null);
+      load();
     }
-    setUploadingLogo(null);
-    load();
   };
 
   const removeLogo = async (id: string) => {
@@ -263,7 +277,7 @@ export default function DonorsPage() {
                         >
                           {/* eslint-disable-next-line @next/next/no-img-element */}
                           <img
-                            src={d.logo_file_path ? `/uploads/${d.logo_file_path}` : d.logo_url!}
+                            src={d.logo_file_path ? `/api/uploads/${encodeURIComponent(d.logo_file_path)}` : d.logo_url!}
                             alt=""
                             className="max-w-full max-h-full object-contain"
                           />

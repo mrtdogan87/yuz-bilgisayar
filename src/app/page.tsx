@@ -9,6 +9,15 @@ export const dynamic = "force-dynamic";
 
 const COMPUTER_GOAL = 100;
 
+function normalizeUploadPath(url: string | null): string | null {
+  if (!url) return null;
+  if (url.startsWith("/uploads/")) {
+    const name = url.slice("/uploads/".length);
+    return `/api/uploads/${encodeURIComponent(name)}`;
+  }
+  return url;
+}
+
 async function resolvePublicUrl(): Promise<string> {
   const envBase = process.env.NEXT_PUBLIC_BASE_URL?.replace(/\/$/, "");
   if (envBase) return envBase;
@@ -50,7 +59,7 @@ export default async function HomePage() {
     id: p.donor.id,
     name: p.donor.name,
     computerCount: p.donor.computer_count,
-    logoUrl: p.donor.logo_file_path ? `/uploads/${p.donor.logo_file_path}` : p.donor.logo_url,
+    logoUrl: p.donor.logo_file_path ? `/api/uploads/${encodeURIComponent(p.donor.logo_file_path)}` : p.donor.logo_url,
     websiteUrl: p.donor.website_url,
     bgColor: p.donor.bg_color,
     row: p.row,
@@ -65,7 +74,7 @@ export default async function HomePage() {
       id: p.donor.id,
       name: p.donor.name,
       computerCount: p.donor.computer_count,
-      logoUrl: p.donor.logo_file_path ? `/uploads/${p.donor.logo_file_path}` : p.donor.logo_url,
+      logoUrl: p.donor.logo_file_path ? `/api/uploads/${encodeURIComponent(p.donor.logo_file_path)}` : p.donor.logo_url,
       websiteUrl: p.donor.website_url,
       bgColor: p.donor.bg_color,
       createdAt: p.donor.created_at,
@@ -87,7 +96,7 @@ export default async function HomePage() {
         reachText: settings.reach_text,
         shareText: settings.share_text,
         instagramText: settings.instagram_text,
-        posterFileUrl: settings.poster_file_url,
+        posterFileUrl: normalizeUploadPath(settings.poster_file_url),
         posterFileName: settings.poster_file_name,
         posterMimeType: settings.poster_mime_type,
         reachTarget: settings.reach_target,

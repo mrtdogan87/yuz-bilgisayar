@@ -1,23 +1,12 @@
 import fs from "fs";
-import path from "path";
-
-const MIME: Record<string, string> = {
-  ".png": "image/png",
-  ".jpg": "image/jpeg",
-  ".jpeg": "image/jpeg",
-  ".gif": "image/gif",
-  ".webp": "image/webp",
-  ".svg": "image/svg+xml",
-};
+import { resolveUpload } from "./uploads";
 
 export function logoDataUri(filePath: string | null, url: string | null): string | null {
   if (filePath) {
-    const full = path.join(process.cwd(), "public", "uploads", filePath);
-    if (fs.existsSync(full)) {
-      const ext = path.extname(filePath).toLowerCase();
-      const mime = MIME[ext] || "image/png";
-      const b64 = fs.readFileSync(full).toString("base64");
-      return `data:${mime};base64,${b64}`;
+    const resolved = resolveUpload(filePath);
+    if (resolved) {
+      const b64 = fs.readFileSync(resolved.fullPath).toString("base64");
+      return `data:${resolved.mime};base64,${b64}`;
     }
   }
   if (url && /^https?:\/\//i.test(url)) return url;

@@ -40,7 +40,7 @@ export async function GET(req: NextRequest) {
       name: p.donor.name,
       computerCount: p.donor.computer_count,
       logoUrl: p.donor.logo_file_path
-        ? `/uploads/${p.donor.logo_file_path}`
+        ? `/api/uploads/${encodeURIComponent(p.donor.logo_file_path)}`
         : p.donor.logo_url,
       websiteUrl: p.donor.website_url,
       bgColor: p.donor.bg_color,
