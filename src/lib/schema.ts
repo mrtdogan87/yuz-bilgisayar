@@ -108,6 +108,20 @@ export function getDb(): Database.Database {
       call_note TEXT
     );
     CREATE INDEX IF NOT EXISTS idx_callback_requests_created ON callback_requests(created_at);
+
+    CREATE TABLE IF NOT EXISTS notebook_entries (
+      id TEXT PRIMARY KEY,
+      name TEXT NOT NULL,
+      phone TEXT,
+      scheduled_at INTEGER,
+      discussion_note TEXT,
+      next_followup_at INTEGER,
+      status TEXT NOT NULL DEFAULT 'pending',
+      created_at INTEGER NOT NULL,
+      updated_at INTEGER NOT NULL
+    );
+    CREATE INDEX IF NOT EXISTS idx_notebook_status ON notebook_entries(status);
+    CREATE INDEX IF NOT EXISTS idx_notebook_followup ON notebook_entries(next_followup_at);
   `);
 
   const donorCols = (db.prepare("PRAGMA table_info(donors)").all() as { name: string }[]).map((r) => r.name);
@@ -217,4 +231,19 @@ export type CallbackRequest = {
   created_at: number;
   called_at: number | null;
   call_note: string | null;
+};
+
+export const NOTEBOOK_STATUSES = ["pending", "in_progress", "done"] as const;
+export type NotebookStatus = (typeof NOTEBOOK_STATUSES)[number];
+
+export type NotebookEntry = {
+  id: string;
+  name: string;
+  phone: string | null;
+  scheduled_at: number | null;
+  discussion_note: string | null;
+  next_followup_at: number | null;
+  status: NotebookStatus;
+  created_at: number;
+  updated_at: number;
 };
